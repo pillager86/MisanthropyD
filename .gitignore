@@ -10,6 +10,7 @@ misanthropyd.a
 libmisanthropyd.a
 misanthropyd.lib
 misanthropyd-test-*
+.vscode
 *.exe
 *.o
 *.obj
