@@ -9,6 +9,7 @@ sandbox.dll
 sandbox.a
 sandbox.lib
 sandbox-test-*
+misanthropyd_sandbox
 *.exe
 *.o
 *.obj
