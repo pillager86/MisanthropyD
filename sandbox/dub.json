@@ -3,8 +3,12 @@
 		"Pillager86"
 	],
 	"dependencies": {
-		"misanthropyd": "~master"
+		"misanthropyd": "~master",
+		"gfm": "~>8.0.3"
 	},
+	"importPaths": [
+		"../source"
+	],
 	"copyright": "Copyright © 2020, Pillager86",
 	"description": "Tests the misanthropyD engine",
 	"license": "Apache-2.0",

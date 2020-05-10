@@ -35,9 +35,12 @@ abstract class Application
             immutable duration = newTime - lastFrameTime_;
             Timestep timestep =  Timestep(cast(float)(duration.total!"msecs") / 1000.0f);
             lastFrameTime_ = newTime;
-            onUpdate();
-            foreach(layer ; layerStack_.layers)
-                layer.onUpdate(timestep);
+            if(!minimized_)
+            {
+                onUpdate();
+                foreach(layer ; layerStack_.layers)
+                    layer.onUpdate(timestep);
+            }
             window_.onUpdate();
         }
     }
@@ -47,7 +50,7 @@ abstract class Application
     {
         auto dispatcher = EventDispatcher(e);
         dispatcher.dispatch!WindowCloseEvent(&onWindowClose);
-        // Logger.logf(Logger.Severity.INFO, "%s", e);
+        dispatcher.dispatch!WindowResizeEvent(&onWindowResize);
         // tell each layer about event if unhandled
         foreach_reverse(layer ; layerStack_.layers)
         {
@@ -63,6 +66,27 @@ abstract class Application
 
     }
 
+    /// handles window resize
+    bool onWindowResize(WindowResizeEvent e)
+    {
+        import misanthropyd.renderer.renderer : Renderer;
+        if(e.width == 0 || e.height == 0)
+        {
+            minimized_ = true;
+            return false;
+        }
+        minimized_ = false;
+        Renderer.onWindowResize(e.width, e.height);
+        return false;
+    }
+
+    /// handles window closing
+    bool onWindowClose(WindowCloseEvent e) nothrow pure @safe @nogc 
+    {
+        running_ = false;
+        return true;
+    }
+
     /// accessor for window
     pure @safe @nogc Window window() { return window_; }
 
@@ -74,14 +98,10 @@ abstract class Application
 
     private 
     {
-        pure @safe @nogc bool onWindowClose(WindowCloseEvent e) nothrow
-        {
-            running_ = false;
-            return true;
-        }
 
         Window window_;
         bool running_ = true;
+        bool minimized_ = false;
         LayerStack layerStack_;
         SysTime lastFrameTime_;
 

@@ -18,6 +18,8 @@ import misanthropyd.renderer.shaders;
 import misanthropyd.renderer.textures;
 import misanthropyd.renderer.vertexarray;
 
+import sandbox2d;
+
 /// implements a basic testing app for the engine
 class SandboxApp : Application
 {
@@ -25,7 +27,7 @@ class SandboxApp : Application
 	this()
 	{
 		window.vsync = true;
-		layerStack.pushLayer(new TestLayer);
+		layerStack.pushLayer(new Sandbox2D);
 		Renderer.initialize();
 	}
 

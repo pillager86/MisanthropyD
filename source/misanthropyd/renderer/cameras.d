@@ -49,6 +49,13 @@ class OrthographicCamera
         return rotation_;
     }
 
+    /// reset the projection
+    void setProjection(const float left, const float right, const float bottom, const float top)
+    {
+        projectionMatrix_ = mat4x4f.orthographic(left, right, bottom, top, -1.0f, 1.0f);
+        viewProjectionCache_ = projectionMatrix_ * viewMatrix_;        
+    }
+
     private
     {
         pure @safe @nogc void recalculateViewMatrix() nothrow

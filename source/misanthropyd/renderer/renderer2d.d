@@ -136,7 +136,9 @@ class Renderer2D
     static void flush()
     {
         for(uint i=0; i < render2Ddata.textureSlotIndex; ++i)
+        {
             render2Ddata.textureSlots[i].bind(i);
+        }
         RenderCommand.drawIndexed(render2Ddata.quadVertexArray, render2Ddata.quadIndexCount);
     }
     
@@ -234,12 +236,14 @@ class Renderer2D
         render2Ddata.quadIndexCount += 6;
     }
 
+    /// draw rotated quad with color
     static void drawRotatedQuad(const vec2f position, const vec2f size, const float rotation, const vec4f color)
     {
         drawRotatedQuad(vec3f(position.x, position.y, 0.0f), size, rotation, color);
 
     }
 
+    /// draw rotated quad with color at z index
     static void drawRotatedQuad(const vec3f position, const vec2f size, const float rotation, const vec4f color)
     {
         immutable size_t QUAD_VERTEX_COUNT = 4;
@@ -274,12 +278,14 @@ class Renderer2D
         render2Ddata.quadIndexCount += 6;
     }
 
+    /// draw rotated quad with texture
     static void drawRotatedQuad(const vec2f position, const vec2f size, const float rotation, Texture2D texture, 
                                 float tilingFactor = 1.0f, const vec4f tintColor = vec4f( 1.0f, 1.0f, 1.0f, 1.0f))
     {
         drawRotatedQuad(vec3f(position.x, position.y, 0.0f), size, rotation, texture, tilingFactor, tintColor);
     }
 
+    /// draw rotated quad with texture at z index
     static void drawRotatedQuad(const vec3f position, const vec2f size, const float rotation, Texture2D texture, 
                                 float tilingFactor = 1.0f, const vec4f tintColor = vec4f( 1.0f, 1.0f, 1.0f, 1.0f))
     {
