@@ -8,62 +8,62 @@ import misanthropyd.renderer.buffers;
 /// implements OpenGL vertex arrays
 class OGLVertexArray : VertexArray
 {
-    /// ctor
-    this()
-    {
-        glCreateVertexArrays(1, &id_);
-        glBindVertexArray(id_);
-    }
+	/// ctor
+	this()
+	{
+		glCreateVertexArrays(1, &id_);
+		glBindVertexArray(id_);
+	}
 
-    ~this()
-    {
-        glDeleteVertexArrays(1, &id_);
-    }
+	~this()
+	{
+		glDeleteVertexArrays(1, &id_);
+	}
 
-    /// binds
-    override void bind() const
-    {
-        glBindVertexArray(id_);
-    }
+	/// binds
+	override void bind() const
+	{
+		glBindVertexArray(id_);
+	}
 
-    /// unbinds
-    override void unbind() const
-    {
-        glBindVertexArray(0);
-    }
+	/// unbinds
+	override void unbind() const
+	{
+		glBindVertexArray(0);
+	}
 
-    /// add a vertex buffer
-    override void addVertexBuffer(VertexBuffer vb)
-    {
-        glBindVertexArray(id_);
-        vb.bind();
-        vertexBuffers_ ~= vb;
-    }
+	/// add a vertex buffer
+	override void addVertexBuffer(VertexBuffer vb)
+	{
+		glBindVertexArray(id_);
+		vb.bind();
+		vertexBuffers_ ~= vb;
+	}
 
-    /// set the index buffer
-    override void setIndexBuffer(IndexBuffer ib)
-    {
-        glBindVertexArray(id_);
-        ib.bind();
-        indexBuffer_ = ib;
-    }
+	/// set the index buffer
+	override void setIndexBuffer(IndexBuffer ib)
+	{
+		glBindVertexArray(id_);
+		ib.bind();
+		indexBuffer_ = ib;
+	}
 
-    /// get vertex buffer(s)
-    override const(VertexBuffer[]) vertexBuffers() const
-    {
-        return vertexBuffers_;
-    }
+	/// get vertex buffer(s)
+	override const(VertexBuffer[]) vertexBuffers() const
+	{
+		return vertexBuffers_;
+	}
 
-    /// get index buffer
-    override const(IndexBuffer) indexBuffer() const
-    {
-        return indexBuffer_;
-    }
+	/// get index buffer
+	override const(IndexBuffer) indexBuffer() const
+	{
+		return indexBuffer_;
+	}
 
-    private
-    {
-        uint id_;
-        VertexBuffer[] vertexBuffers_;
-        IndexBuffer indexBuffer_;
-    }
+	private
+	{
+		uint id_;
+		VertexBuffer[] vertexBuffers_;
+		IndexBuffer indexBuffer_;
+	}
 }

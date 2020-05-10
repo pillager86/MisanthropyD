@@ -15,9 +15,9 @@ out float v_tilingFactor;
 
 void main()
 {
-    v_color = a_color;
-    v_texCoord = a_texCoord;
-    v_texIndex = a_texIndex;
-    v_tilingFactor = a_tilingFactor;
-    gl_Position = u_viewProjection * vec4(a_position, 1.0);
+	v_color = a_color;
+	v_texCoord = a_texCoord;
+	v_texIndex = a_texIndex;
+	v_tilingFactor = a_tilingFactor;
+	gl_Position = u_viewProjection * vec4(a_position, 1.0);
 }

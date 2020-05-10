@@ -10,39 +10,41 @@ import misanthropyd.renderer.vertexarray;
 /// RenderCommand
 class RenderCommand
 {
-    static void initialize()
-    {
-        rendererAPI_.initialize();
-    }
+	/// initialize
+	static void initialize()
+	{
+		rendererAPI_.initialize();
+	}
 
-    static void setViewport(const uint x, const uint y, const uint width, const uint height)
-    {
-        rendererAPI_.setViewport(x, y, width, height);
-    }
+	/// set viewport
+	static void setViewport(const uint x, const uint y, const uint width, const uint height)
+	{
+		rendererAPI_.setViewport(x, y, width, height);
+	}
 
-    /// sets the clear color
-    static void setClearColor(const vec4f color)
-    {
-        rendererAPI_.setClearColor(color);
-    }
+	/// sets the clear color
+	static void setClearColor(const vec4f color)
+	{
+		rendererAPI_.setClearColor(color);
+	}
 
-    /// clears using color set by setClearColor
-    static void clear()
-    {
-        rendererAPI_.clear();
-    }
+	/// clears using color set by setClearColor
+	static void clear()
+	{
+		rendererAPI_.clear();
+	}
 
-    /// draws a vertex array
-    static void drawIndexed(const VertexArray vertexArray, const uint count=0)
-    {
-        rendererAPI_.drawIndexed(vertexArray, count);
-    }
+	/// draws a vertex array
+	static void drawIndexed(const VertexArray vertexArray, const uint count=0)
+	{
+		rendererAPI_.drawIndexed(vertexArray, count);
+	}
 
-    /// static initializer
-    static this()
-    {
-        rendererAPI_ = RendererAPI.create();
-    }
+	/// static initializer
+	static this()
+	{
+		rendererAPI_ = RendererAPI.create();
+	}
 
-    private static RendererAPI rendererAPI_;
+	private static RendererAPI rendererAPI_;
 }

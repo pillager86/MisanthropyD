@@ -12,57 +12,58 @@ import misanthropyd.renderer.vertexarray;
 /// Renderer
 class Renderer 
 {
-    /// initialize
-    static void initialize()
-    {
-        RenderCommand.initialize();
-        Renderer2D.initialize();
-    }
+	/// initialize
+	static void initialize()
+	{
+		RenderCommand.initialize();
+		Renderer2D.initialize();
+	}
 
-    static void shutdown()
-    {
-        Renderer2D.shutdown();
-    }
+	/// shutdown
+	static void shutdown()
+	{
+		Renderer2D.shutdown();
+	}
 
-    /// handles window resize
-    static void onWindowResize(const uint width, const uint height)
-    {
-        RenderCommand.setViewport(0, 0, width, height);
-    }
+	/// handles window resize
+	static void onWindowResize(const uint width, const uint height)
+	{
+		RenderCommand.setViewport(0, 0, width, height);
+	}
 
-    /// begin scene
-    static void beginScene(const OrthographicCamera camera)
-    {
-        sceneData_.viewProjection = camera.viewProjectionCache;
-    }
+	/// begin scene
+	static void beginScene(const OrthographicCamera camera)
+	{
+		sceneData_.viewProjection = camera.viewProjectionCache;
+	}
 
-    /// end scene
-    static void endScene()
-    {
+	/// end scene
+	static void endScene()
+	{
 
-    }
+	}
 
-    /// submit
-    static void submit(const Program program, const VertexArray vertexArray, 
-                        const mat4x4f transform = mat4x4f.identity)
-    {
-        program.use();
-        program.setMat4("u_ViewProjection", sceneData_.viewProjection);
-        program.setMat4("u_Transform", transform);
-        vertexArray.bind();
-        RenderCommand.drawIndexed(vertexArray);
-    }
+	/// submit
+	static void submit(const Program program, const VertexArray vertexArray, 
+						const mat4x4f transform = mat4x4f.identity)
+	{
+		program.use();
+		program.setMat4("u_ViewProjection", sceneData_.viewProjection);
+		program.setMat4("u_Transform", transform);
+		vertexArray.bind();
+		RenderCommand.drawIndexed(vertexArray);
+	}
 
-    static RendererAPI.API getAPI() { return RendererAPI.api; }
+	static RendererAPI.API getAPI() { return RendererAPI.api; }
 
-    private
-    {
-        struct SceneData
-        {
-            mat4x4f viewProjection;
-        }
+	private
+	{
+		struct SceneData
+		{
+			mat4x4f viewProjection;
+		}
 
-        static SceneData sceneData_;
-    }
+		static SceneData sceneData_;
+	}
 
 }

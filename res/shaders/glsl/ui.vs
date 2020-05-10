@@ -20,10 +20,10 @@ uniform mat4 u_projection;
 
 void main() 
 {
-    // apply the matrix to the positon
-    gl_Position = u_projection * u_view * u_model * vec4(position, 1.0);
-    // set the texture coordinates to their value for fragment shader
-    v_texCoord = texCoords;
-    // set the color
-    v_color = color;
+	// apply the matrix to the positon
+	gl_Position = u_projection * u_view * u_model * vec4(position, 1.0);
+	// set the texture coordinates to their value for fragment shader
+	v_texCoord = texCoords;
+	// set the color
+	v_color = color;
 }

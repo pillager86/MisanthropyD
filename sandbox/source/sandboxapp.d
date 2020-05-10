@@ -60,18 +60,18 @@ class TestLayer : Layer
 		// Logger.logf(Logger.Severity.WARNING, "Time step = %s", ts.getSeconds);
 
 		RenderCommand.setClearColor(vec4f(0.1f, 0.1f, 0.1f, 1));
-        RenderCommand.clear();
-        Renderer2D.beginScene(camera_);
+		RenderCommand.clear();
+		Renderer2D.beginScene(camera_);
 		Renderer2D.drawQuad(vec2f(0.0f, 0.0f), vec2f(1.0f, 1.0f), vec4f(1.0f, 0.0f, 0.0f, 1.0f));
 		Renderer2D.drawQuad(vec2f(1.0f, 0.0f), vec2f(1.0f, 1.0f), blueTexture_);
 		Renderer2D.drawRotatedQuad(vec2f(-1.0f, -1.0f), vec2f(1.0f, 1.0f), rotation, vec4f(0.0f, 1.0f, 0.0f, 1.0f));
-        Renderer2D.endScene();
+		Renderer2D.endScene();
 	}
 
 	private
 	{
 		Texture2D blueTexture_;
-        OrthographicCamera camera_;
+		OrthographicCamera camera_;
 	}
 }
 
