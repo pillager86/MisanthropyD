@@ -1,0 +1,13 @@
+{
+	"authors": [
+		"Pillager86"
+	],
+	"dependencies": {
+		"misanthropyd": "~master"
+	},
+	"copyright": "Copyright © 2020, Pillager86",
+	"description": "Tests the misanthropyD engine",
+	"license": "GPL-3.0",
+	"name": "sandbox",
+	"targetType": "executable"
+}

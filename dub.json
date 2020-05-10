@@ -1,0 +1,25 @@
+{
+	"authors": [
+		"Pillager86"
+	],
+	"copyright": "Copyright © 2020, Pillager86",
+	"dependencies": {
+		"bindbc-opengl": "~>0.12.0",
+		"bindbc-sdl": "~>0.16.0",
+		"gfm": "~>8.0.3",
+		"stb": "~>1.7.6"
+	},
+	"description": "Game engine inspired by Hazel",
+	"license": "GPL-3.0",
+	"name": "misanthropyd",
+	"subPackages": [
+		"sandbox"
+	],
+	"targetType": "library",
+	"versions": [
+		"GL_46",
+		"BindSDL_Image",
+		"SDL",
+		"OpenGL"
+	]
+}

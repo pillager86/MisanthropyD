@@ -1,0 +1,15 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/misanthropyd
+misanthropyd.so
+misanthropyd.dylib
+misanthropyd.dll
+misanthropyd.a
+misanthropyd.lib
+misanthropyd-test-*
+*.exe
+*.o
+*.obj
+*.lst
