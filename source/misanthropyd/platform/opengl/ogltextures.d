@@ -17,6 +17,7 @@ class OGLTexture2D : Texture2D
 	this(const string path)
 	{
 		int w, h, channels;
+		stbi_set_flip_vertically_on_load(1);
 		ubyte* data = stbi_load(path.toStringz, &w, &h, &channels, 0);
 		width_ = w;
 		height_ = h;

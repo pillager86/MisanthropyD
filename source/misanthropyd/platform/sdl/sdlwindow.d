@@ -22,11 +22,11 @@ class SdlWindow : Window
 		synchronized { initializeSDL(); }
 
 		window_ = SDL_CreateWindow(props.title.toStringz, SDL_WINDOWPOS_CENTERED, 
-				SDL_WINDOWPOS_CENTERED, props.width, props.height, 
-				SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+								   SDL_WINDOWPOS_CENTERED, props.width, props.height, 
+								   SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 		if(window_ == null)
 			Logger.logf(Logger.Severity.FATAL, "Failed to create SDL Window: %s", 
-						SDL_GetError.to!string);
+						SDL_GetError().to!string);
 
 		// default value for event callback
 		eventCallback_ = (e) {};
@@ -169,18 +169,6 @@ class SdlWindow : Window
 				{
 					Logger.logf(Logger.Severity.FATAL, "SDL Error: %s", SDL_GetError().to!string);
 					return;
-				}
-
-				if(loadSDLImage() != sdlImageSupport)
-				{
-					Logger.logf(Logger.Severity.FATAL, "SDL Image not supported!");
-					return;
-				}
-
-				immutable flags = IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF | IMG_INIT_WEBP;
-				if((IMG_Init(flags) & flags) != flags)
-				{
-					Logger.logf(Logger.Severity.ERROR, "IMG_Init: %s", IMG_GetError().to!string);
 				}
 
 				isSDLLoaded = true;

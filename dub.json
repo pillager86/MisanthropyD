@@ -18,7 +18,6 @@
 	"targetType": "library",
 	"versions": [
 		"GL_46",
-		"BindSDL_Image",
 		"SDL",
 		"OpenGL"
 	]

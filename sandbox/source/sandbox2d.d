@@ -23,6 +23,7 @@ class Sandbox2D : Layer
 	override void onAttach()
 	{
 		checkerboardTexture_ = Texture2D.create("sandbox/res/textures/checkerboard.png");
+		marioTexture_ = Texture2D.create("sandbox/res/textures/mario.png");
 	}
 
 	override void onDetach()
@@ -44,6 +45,7 @@ class Sandbox2D : Layer
 		Renderer2D.drawQuad(vec2f(0.5f, 0.5f), vec2f(0.5f, 0.75f), vec4f(0.2f, 0.3f, 0.8f, 1.0f));
 		Renderer2D.drawQuad(vec3f(0.0f, 0.0f, -0.1f), vec2f(20.0f, 20.0f), checkerboardTexture_, 10.0f);
 		Renderer2D.drawRotatedQuad(vec3f(-2.0f, 0.0f, 0.0f), vec2f(1.0f, 1.0f), rotation, checkerboardTexture_, 20.0f);
+		Renderer2D.drawQuad(vec3f(-3.0f, 0.0f, 0.1f), vec2f(0.9f, 0.9f), marioTexture_);
 		Renderer2D.endScene();
 
 		Renderer2D.beginScene(cameraController_.camera);
@@ -66,7 +68,7 @@ class Sandbox2D : Layer
 	private
 	{
 		OrthographicCameraController cameraController_;
-		Texture2D checkerboardTexture_;
+		Texture2D checkerboardTexture_, marioTexture_;
 	}
 
 }

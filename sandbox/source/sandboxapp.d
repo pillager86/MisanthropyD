@@ -38,7 +38,7 @@ class SandboxApp : Application
 }
 
 /// implements test layer
-class TestLayer : Layer
+deprecated class TestLayer : Layer
 {
 	/// ctor
 	this()
