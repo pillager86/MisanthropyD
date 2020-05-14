@@ -8,15 +8,15 @@ import std.conv: to;
 abstract class KeyEvent : Event
 {
 	/// key code property
-	pure @safe @nogc int keyCode() const nothrow { return keyCode_; }
-	pure @safe @nogc int keyMods() const nothrow { return keyMods_; }
+	int keyCode() const nothrow pure @nogc @safe { return keyCode_; }
+	int keyMods() const nothrow pure @nogc @safe { return keyMods_; }
 
 	mixin EventClassCategory!(EventCategory, EventCategory.Keyboard | EventCategory.Input);
 
 	protected 
 	{
 		/// constructor
-		pure @safe @nogc this(int keycode, int keymods) nothrow 
+		this(int keycode, int keymods) nothrow pure @nogc @safe
 		{ 
 			keyCode_ = keycode; 
 			keyMods_ = keymods;
@@ -32,16 +32,16 @@ abstract class KeyEvent : Event
 class KeyPressedEvent : KeyEvent
 {
 	/// constructor
-	pure @safe @nogc this(int keycode, int keymods, int rCount) nothrow
+	this(int keycode, int keymods, int rCount) nothrow pure @nogc @safe
 	{
 		super(keycode, keymods);
 		repeatCount_ = rCount;
 	}
 
 	/// repeat count property
-	pure @safe @nogc int repeatCount() const nothrow { return repeatCount_; }
+	int repeatCount() const nothrow pure @nogc @safe { return repeatCount_; }
 
-	@safe override string toString() const
+	override string toString() const @safe
 	{
 		return "KeyPressedEvent: " ~ keyCode_.to!string ~ " (" ~ repeatCount_.to!string ~ " repeats)";
 	}
@@ -55,9 +55,9 @@ class KeyPressedEvent : KeyEvent
 class KeyReleasedEvent : KeyEvent
 {
 	/// ctor
-	pure @safe @nogc this(int keycode, int keymods) nothrow { super(keycode, keymods); }
+	this(int keycode, int keymods) nothrow pure @nogc @safe { super(keycode, keymods); }
 
-	@safe override string toString() const 
+	override string toString() const @safe
 	{
 		return "KeyReleasedEvent: " ~ keyCode_.to!string;
 	}
@@ -69,13 +69,13 @@ class KeyReleasedEvent : KeyEvent
 class TextInputEvent : Event 
 {
 	/// ctor
-	pure @safe @nogc this(string txt) nothrow 
+	this(string txt) nothrow pure @nogc @safe
 	{
 		text_ = txt;
 	}
 
 	/// text property
-	pure @safe @nogc string text() const nothrow { return text_; }
+	string text() const nothrow pure @nogc @safe { return text_; }
 
 	mixin EventClassCategory!(EventCategory, EventCategory.Keyboard | EventCategory.Input);
 	mixin EventClassType!(EventType, EventType.TextInput);

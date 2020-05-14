@@ -8,18 +8,18 @@ import misanthropyd.events.event;
 class WindowResizeEvent : Event 
 {
 	/// constructor, takes new width and height of window
-	pure @safe @nogc this(const uint w, const uint h) nothrow
+	this(const uint w, const uint h) pure nothrow @nogc @safe
 	{
 		width_ = w;
 		height_ = h;
 	}
 
 	/// returns width data of resize event
-	pure @safe @nogc uint width() const nothrow { return width_; }
+	uint width() const pure nothrow @nogc @safe { return width_; }
 	/// returns height data of resize event
-	pure @safe @nogc uint height() const nothrow { return height_; }
+	uint height() const pure nothrow @nogc @safe { return height_; }
 	/// creates a string containing window resize data
-	pure @safe override string toString() const 
+	override string toString() const pure @safe 
 	{
 		return "WindowResizeEvent: " ~ width_.to!string ~ ", " ~ height_.to!string;
 	}

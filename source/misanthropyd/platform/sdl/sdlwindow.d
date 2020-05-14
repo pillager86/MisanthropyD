@@ -36,7 +36,7 @@ class SdlWindow : Window
 		// TODO: support other rendering APIs
 	}
 
-	~this() @nogc nothrow
+	~this() nothrow @nogc
 	{
 		SDL_DestroyWindow(window_);
 	}
@@ -117,26 +117,26 @@ class SdlWindow : Window
 		context_.swapBuffers();
 	}
 
-	override uint width() @nogc nothrow
+	override uint width() nothrow @nogc
 	{
 		int w;
 		SDL_GetWindowSize(window_, &w, null);
 		return w;
 	}
 
-	override uint height() @nogc nothrow
+	override uint height() nothrow @nogc
 	{
 		int h;
 		SDL_GetWindowSize(window_, null, &h);
 		return h;
 	}
 
-	override bool vsync() @nogc @safe pure const nothrow
+	override bool vsync() pure const nothrow @nogc @safe
 	{
 		return vsync_;
 	}
 
-	override bool vsync(bool vs) @nogc nothrow
+	override bool vsync(bool vs) nothrow @nogc
 	{
 		vsync_ = vs;
 		version(OpenGL)
@@ -145,7 +145,7 @@ class SdlWindow : Window
 		return vsync_;
 	}
 
-	override void setEventCallback(const EventCallbackFn fn) @nogc @safe pure nothrow
+	override void setEventCallback(const EventCallbackFn fn) pure nothrow @nogc @safe
 	{
 		eventCallback_ = fn;
 	}

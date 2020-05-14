@@ -55,7 +55,7 @@ class OGLVertexArray : VertexArray
 	}
 
 	/// get index buffer
-	override const(IndexBuffer) indexBuffer() const
+	override const(IndexBuffer) indexBuffer() const nothrow pure @nogc @safe
 	{
 		return indexBuffer_;
 	}

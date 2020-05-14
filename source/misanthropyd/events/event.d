@@ -24,15 +24,15 @@ enum EventCategory
 mixin template EventClassType(T : EventType, EventType et)
 {
 	import std.conv: to;
-	pure @safe @nogc static T getStaticType() nothrow { return et; }
-	pure @safe @nogc override EventType eventType() const nothrow { return getStaticType; }
-	pure @safe override string name() const { return et.to!string; }
+	static T getStaticType() nothrow pure @nogc @safe { return et; }
+	override EventType eventType() const nothrow pure @nogc @safe { return getStaticType; }
+	override string name() const pure @safe { return et.to!string; }
 }
 
 /// helpful mixin for defining categories of Event subclass
 mixin template EventClassCategory(T : EventCategory, EventCategory category) 
 {
-	pure @safe @nogc override int categoryFlags() const nothrow { return category; }
+	override int categoryFlags() const nothrow pure @nogc @safe { return category; }
 }
 
 /// base class for all events
@@ -50,12 +50,12 @@ abstract class Event
 	bool isInCategory(const EventCategory cat) { return (categoryFlags & cat) != 0; }
 
 	/// handled property
-	pure @safe @nogc bool handled() nothrow { return handled_; }
+	bool handled() nothrow pure @nogc @safe { return handled_; }
 
 	package
 	{
 		/// handled property
-		pure @safe @nogc bool handled(bool h) nothrow { return handled_ = h; }
+		bool handled(bool h) nothrow pure @nogc @safe { return handled_ = h; }
 	}
 	protected bool handled_ = false;
 }
@@ -70,7 +70,7 @@ struct EventDispatcher
 	}
 
 	/// ctor
-	pure @safe @nogc this(Event event) nothrow
+	this(Event event) nothrow pure @nogc @safe
 	{
 		event_ = event;
 	}

@@ -18,8 +18,8 @@ abstract class Application
 	/// ctor
 	this()
 	{
-		assert(application_ is null);
-		application_ = this;
+		// assert(application_ is null);
+		// application_ = this;
 		layerStack_ = new LayerStack;
 		window_ = Window.create(WindowProps("Sandbox", 1280, 720));
 		window_.setEventCallback(&onEvent);
@@ -88,13 +88,13 @@ abstract class Application
 	}
 
 	/// accessor for window
-	pure @safe @nogc Window window() { return window_; }
+	Window window() pure @nogc @safe { return window_; }
 
 	/// accessor for layerStack
-	pure @safe @nogc LayerStack layerStack() nothrow { return layerStack_; }
+	LayerStack layerStack() nothrow pure @nogc @safe { return layerStack_; }
 
 	/// access singleton
-	@safe @nogc static Application get() nothrow { return application_; }
+	// static Application get() nothrow @nogc @safe { return application_; }
 
 	private 
 	{
@@ -105,7 +105,7 @@ abstract class Application
 		LayerStack layerStack_;
 		SysTime lastFrameTime_;
 
-		static Application application_;
+		// static Application application_;
 	}
 }
 

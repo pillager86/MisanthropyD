@@ -7,19 +7,19 @@ import misanthropyd.core.input;
 /// SDL implementation of Input
 class SdlInput : Input
 {
-	@nogc override bool isKeyPressedImpl(const int keycode) nothrow
+	override bool isKeyPressedImpl(const int keycode) nothrow @nogc
 	{
 		immutable scancode = SDL_GetScancodeFromKey(cast(SDL_Keycode)keycode);
 		auto keystates = SDL_GetKeyboardState(null);
 		return keystates[scancode] != 0;
 	}
 
-	@nogc override bool isMouseButtonPressedImpl(const int button) nothrow
+	override bool isMouseButtonPressedImpl(const int button) nothrow @nogc
 	{
 		return (SDL_GetMouseState(null, null) & button) != 0;
 	}
 
-	@nogc override MouseInfo getMousePositionImpl() nothrow
+	override MouseInfo getMousePositionImpl() nothrow @nogc
 	{
 		int x, y;
 		SDL_GetMouseState(&x, &y);

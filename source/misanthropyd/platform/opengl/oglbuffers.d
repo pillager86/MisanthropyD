@@ -8,7 +8,7 @@ import misanthropyd.renderer.buffers;
 class OGLVertexBuffer : VertexBuffer
 {
 	/// constructor
-	this(const float[] vertices)
+	this(const float[] vertices) nothrow @nogc
 	{
 		glCreateBuffers(1, &id_);
 		glBindBuffer(GL_ARRAY_BUFFER, id_);
@@ -16,7 +16,7 @@ class OGLVertexBuffer : VertexBuffer
 	}
 
 	/// construct dynamic draw for data to fill later
-	this(size_t size)
+	this(size_t size) nothrow @nogc
 	{
 		glCreateBuffers(1, &id_);
 		glBindBuffer(GL_ARRAY_BUFFER, id_);
@@ -24,25 +24,25 @@ class OGLVertexBuffer : VertexBuffer
 	}
 
 	/// destructor
-	~this()
+	~this() nothrow @nogc
 	{
 		glDeleteBuffers(1, &id_);
 	}
 
 	/// binds
-	override void bind() const
+	override void bind() const nothrow @nogc
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, id_);
 	}
 
 	/// unbinds
-	override void unbind() const
+	override void unbind() const nothrow @nogc
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
 	/// sets the data in the buffer
-	override void setData(const ubyte[] data)
+	override void setData(const ubyte[] data) nothrow @nogc
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, id_);
 		glBufferSubData(GL_ARRAY_BUFFER, 0, data.length, data.ptr);
@@ -88,7 +88,7 @@ class OGLVertexBuffer : VertexBuffer
 class OGLIndexBuffer : IndexBuffer
 {
 	/// ctor
-	this(const uint []indices)
+	this(const uint []indices) nothrow @nogc
 	{
 		count_ = cast(uint)indices.length;
 		glCreateBuffers(1, &id_);
@@ -96,25 +96,25 @@ class OGLIndexBuffer : IndexBuffer
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.length * uint.sizeof, indices.ptr, GL_STATIC_DRAW);
 	}
 
-	~this()
+	~this() nothrow @nogc
 	{
 		glDeleteBuffers(1, &id_);
 	}
 
 	/// binds
-	override void bind() const
+	override void bind() const nothrow @nogc
 	{
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id_);
 	}
 
 	/// unbinds
-	override void unbind() const
+	override void unbind() const nothrow @nogc
 	{
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 
 	/// count property
-	override uint count() const { return count_; }
+	override uint count() const nothrow pure @nogc @safe { return count_; }
 
 	private 
 	{

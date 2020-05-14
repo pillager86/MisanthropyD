@@ -4,6 +4,7 @@ import gfm.math.vector;
 
 import misanthropyd.core.layer;
 import misanthropyd.core.timestep;
+import misanthropyd.debugging.instrumentor;
 import misanthropyd.events;
 import misanthropyd.orthographiccameracontroller;
 import misanthropyd.renderer.rendercommand;
@@ -24,15 +25,18 @@ class Sandbox2D : Layer
 	{
 		checkerboardTexture_ = Texture2D.create("sandbox/res/textures/checkerboard.png");
 		marioTexture_ = Texture2D.create("sandbox/res/textures/mario.png");
+		Instrumentor.get.beginSession("session");
 	}
 
 	override void onDetach()
 	{
 		checkerboardTexture_ = null;
+		Instrumentor.get.endSession();
 	}
 
 	override void onUpdate(const Timestep ts)
 	{
+		// InstrumentationTimer timer1 = InstrumentationTimer(__FUNCTION__);
 		cameraController_.onUpdate(ts);
 		static float rotation = 0.0f;
 		rotation += ts.getSeconds * 50.0f;

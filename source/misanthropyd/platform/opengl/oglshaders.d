@@ -74,19 +74,19 @@ class OGLProgram : Program
 		}
 	}
 
-	~this() @nogc nothrow
+	~this() nothrow @nogc
 	{
 		glDeleteProgram(id_);
 	}
 
 	/// use the shader program
-	override void use() @nogc const nothrow
+	override void use() const nothrow @nogc
 	{
 		glUseProgram(id_);
 	}
 
 	/// disable the shader program
-	override void unuse() @nogc const nothrow
+	override void unuse() const nothrow @nogc
 	{
 		glUseProgram(0);
 	}

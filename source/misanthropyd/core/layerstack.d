@@ -52,7 +52,7 @@ class LayerStack
 	}
 
 	/// for now just return this because range implementation is too complicated
-	pure @safe @nogc Layer[] layers() nothrow { return layers_; }
+	Layer[] layers() nothrow pure @nogc @safe { return layers_; }
 
 	private 
 	{

@@ -25,7 +25,7 @@ class Layer
 	void onEvent(Event event) {}
 
 	/// debug name property
-	pure @safe @nogc string name() const nothrow { return debugName_; }
+	string name() const nothrow pure @nogc @safe { return debugName_; }
 
 	protected string debugName_;
 }

@@ -31,14 +31,14 @@ class OGLGraphicsContext : GraphicsContext
 	}
 	else static assert(false, "No Window API"); // TODO: GLFW support
 
-	~this()
+	~this() nothrow @nogc
 	{
 		version(SDL)
 			SDL_GL_DeleteContext(context_);
 		// TODO: support GLFW
 	}
 
-	override void swapBuffers() @nogc nothrow
+	override void swapBuffers() nothrow @nogc
 	{
 		version(SDL)
 			SDL_GL_SwapWindow(window_);

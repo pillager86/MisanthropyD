@@ -15,7 +15,7 @@ import misanthropyd.renderer.cameras;
 class OrthographicCameraController
 {
 	/// constructor
-	this(float ar, bool rot=false)
+	this(float ar, bool rot=false) nothrow pure @safe
 	{
 		aspectRatio_ = ar;
 		camera_ = new OrthographicCamera(-aspectRatio_ * zoomLevel_, aspectRatio_ * zoomLevel_, 
@@ -77,26 +77,26 @@ class OrthographicCameraController
 	}
 
 	/// camera get property
-	OrthographicCamera camera() 
+	OrthographicCamera camera() nothrow pure @nogc @safe
 	{
 		return camera_;
 	}
 
 	/// zoom level get property
-	float zoomLevel() const
+	float zoomLevel() const nothrow pure @nogc @safe
 	{
 		return zoomLevel_;
 	}
 
 	/// zoom level set property
-	float zoomLevel(float zl)
+	float zoomLevel(float zl) nothrow pure @nogc @safe
 	{
 		return zoomLevel_ = zl;
 	}
 
 	private
 	{
-		bool onMouseScrolled(MouseScrolledEvent e)
+		bool onMouseScrolled(MouseScrolledEvent e) nothrow pure @nogc @safe
 		{
 			import std.algorithm: max;
 
@@ -106,7 +106,7 @@ class OrthographicCameraController
 			return false;
 		}
 
-		bool onWindowResized(WindowResizeEvent e)
+		bool onWindowResized(WindowResizeEvent e) nothrow pure @nogc @safe
 		{
 			aspectRatio_ = cast(float)e.width / cast(float)e.height;
 			camera_.setProjection(-aspectRatio_ * zoomLevel_, aspectRatio_ * zoomLevel_, -zoomLevel_, zoomLevel_);

@@ -14,7 +14,7 @@ private pure @safe @nogc float degreesToRadians(float angle) nothrow
 class OrthographicCamera
 {
 	/// constructor
-	pure @safe @nogc this(const float left, const float right, const float bottom, const float top) nothrow
+	this(const float left, const float right, const float bottom, const float top) nothrow pure @nogc @safe
 	{
 		position_ = vec3f(0,0,0);
 		rotation_ = 0.0f;
@@ -24,25 +24,25 @@ class OrthographicCamera
 	}
 
 	/// projection matrix get property
-	pure @safe @nogc mat4x4f projectionMatrix() const nothrow { return projectionMatrix_; }
+	mat4x4f projectionMatrix() const nothrow pure @nogc @safe { return projectionMatrix_; }
 	/// view matrix get property
-	pure @safe @nogc mat4x4f viewMatrix() const nothrow { return viewMatrix_; }
+	mat4x4f viewMatrix() const nothrow pure @nogc @safe { return viewMatrix_; }
 	/// projection view cache get property
-	pure @safe @nogc mat4x4f viewProjectionCache() const nothrow { return viewProjectionCache_; }
+	mat4x4f viewProjectionCache() const nothrow pure @nogc @safe { return viewProjectionCache_; }
 
 	/// position get property
-	pure @safe @nogc vec3f position() const nothrow { return position_; }
+	vec3f position() const nothrow pure @nogc @safe { return position_; }
 	/// position set property
-	pure @safe @nogc vec3f position(const vec3f pos) nothrow 
+	vec3f position(const vec3f pos) nothrow pure @nogc @safe
 	{ 
 		position_ = pos; 
 		recalculateViewMatrix(); 
 		return position_; 
 	}
 	/// rotation (z-axis) get property
-	pure @safe @nogc float rotation() const nothrow { return rotation_; }
+	float rotation() const nothrow pure @nogc @safe { return rotation_; }
 	/// rotation (z-axis) set property
-	pure @safe @nogc float rotation(const float rot) nothrow 
+	float rotation(const float rot) nothrow pure @nogc @safe
 	{ 
 		rotation_ = rot; 
 		recalculateViewMatrix();
@@ -50,7 +50,7 @@ class OrthographicCamera
 	}
 
 	/// reset the projection
-	void setProjection(const float left, const float right, const float bottom, const float top)
+	void setProjection(const float left, const float right, const float bottom, const float top) nothrow pure @nogc @safe
 	{
 		projectionMatrix_ = mat4x4f.orthographic(left, right, bottom, top, -1.0f, 1.0f);
 		viewProjectionCache_ = projectionMatrix_ * viewMatrix_;        
@@ -58,7 +58,7 @@ class OrthographicCamera
 
 	private
 	{
-		pure @safe @nogc void recalculateViewMatrix() nothrow
+		void recalculateViewMatrix() nothrow pure @nogc @safe
 		{
 			mat4x4f transform = mat4x4f.translation(position_) 
 					 * mat4x4f.rotation(degreesToRadians(rotation_), vec3f(0, 0, 1));

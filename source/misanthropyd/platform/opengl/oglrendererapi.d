@@ -11,7 +11,7 @@ import misanthropyd.renderer.vertexarray;
 /// implements OpenGL
 class OGLRendererAPI : RendererAPI
 {
-	override void initialize()
+	override void initialize() nothrow @nogc
 	{
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -20,19 +20,19 @@ class OGLRendererAPI : RendererAPI
 	}
 
 	/// set viewport
-	override void setViewport(const uint x, const uint y, const uint width, const uint height)
+	override void setViewport(const uint x, const uint y, const uint width, const uint height) nothrow @nogc
 	{
 		glViewport(x, y, width, height);
 	}
 
 	/// set the color for when clear is called
-	override void setClearColor(const vec4f color)
+	override void setClearColor(const vec4f color) nothrow @nogc
 	{
 		glClearColor(color.r, color.g, color.b, color.a);
 	}
 
 	/// clear the screen with set color
-	override void clear()
+	override void clear() nothrow @nogc
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}

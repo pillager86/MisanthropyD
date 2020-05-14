@@ -49,7 +49,7 @@ class OGLTexture2D : Texture2D
 	}
 
 	/// construct with data to be filled later
-	this(const uint w, const uint h)
+	this(const uint w, const uint h) nothrow @nogc
 	{
 		width_ = w;
 		height_ = h;
@@ -64,7 +64,7 @@ class OGLTexture2D : Texture2D
 		// set data with setData
 	}
 
-	~this() @nogc nothrow
+	~this() nothrow @nogc
 	{
 		glDeleteTextures(1, &id_);
 	}
@@ -82,19 +82,19 @@ class OGLTexture2D : Texture2D
 	}
 
 	/// width accessor
-	override uint width() @nogc @safe const nothrow pure
+	override uint width() const nothrow pure @nogc @safe
 	{
 		return width_;
 	}
 
 	/// height accessor
-	override uint height() @nogc @safe const nothrow pure
+	override uint height() const nothrow pure @nogc @safe
 	{
 		return height_;
 	}
 
 	/// bind
-	override void bind(uint slot=0) @nogc const nothrow
+	override void bind(uint slot=0) const nothrow @nogc
 	{
 		glBindTextureUnit(slot, id_);
 	}

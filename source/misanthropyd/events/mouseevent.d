@@ -8,18 +8,18 @@ import std.conv: to;
 class MouseMovedEvent : Event 
 {
 	/// constructor takes new mouse location as args
-	pure @safe @nogc this(float mx, float my) nothrow
+	this(float mx, float my) nothrow pure @nogc @safe
 	{
 		mouseX_ = mx;
 		mouseY_ = my;
 	}
 
 	/// new mouse x location
-	pure @safe @nogc float x() const nothrow { return mouseX_; }
+	float x() const nothrow pure @nogc @safe { return mouseX_; }
 	/// new mouse y location
-	pure @safe @nogc float y() const nothrow { return mouseY_; }
+	float y() const nothrow pure @nogc @safe { return mouseY_; }
 
-	@safe override string toString() const
+	override string toString() const @safe
 	{
 		return "MouseMovedEvent: " ~ mouseX_.to!string ~ ", " ~ mouseY_.to!string;
 	}
@@ -34,18 +34,18 @@ class MouseMovedEvent : Event
 class MouseScrolledEvent : Event 
 {
 	/// constructor takes amount of movement
-	pure @safe @nogc this(float xoff, float yoff) nothrow
+	this(float xoff, float yoff) nothrow pure @nogc @safe
 	{
 		xOffset_ = xoff;
 		yOffset_ = yoff;
 	}
 
 	/// xOffset property
-	pure @safe @nogc float xOffset() const nothrow { return xOffset_; }
+	float xOffset() const nothrow pure @nogc @safe { return xOffset_; }
 	/// yOffset property
-	pure @safe @nogc float yOffset() const nothrow { return yOffset_; }
+	float yOffset() const nothrow pure @nogc @safe { return yOffset_; }
 
-	@safe override string toString() const
+	override string toString() const @safe
 	{
 		return "MouseScrolledEvent: " ~ xOffset_.to!string ~ ", " ~ yOffset_.to!string;
 	}
@@ -60,11 +60,11 @@ class MouseScrolledEvent : Event
 abstract class MouseButtonEvent : Event
 {
 	/// which button was pressed or released
-	pure @safe @nogc int button() const nothrow { return button_; }    
+	int button() const nothrow pure @nogc @safe { return button_; }    
 
 	mixin EventClassCategory!(EventCategory, EventCategory.Mouse | EventCategory.Input);
 
-	pure @safe @nogc protected this(int btn) nothrow
+	protected this(int btn) nothrow pure @nogc @safe
 	{
 		button_ = btn;
 	}
@@ -76,12 +76,12 @@ abstract class MouseButtonEvent : Event
 class MouseButtonPressedEvent : MouseButtonEvent
 {
 	/// constructor
-	pure @safe @nogc this(int btn) nothrow
+	this(int btn) nothrow pure @nogc @safe
 	{
 		super(btn);
 	}
 
-	@safe override string toString() const 
+	override string toString() const @safe
 	{
 		return "MouseButtonPressedEvent: " ~ button_.to!string;
 	}
@@ -93,12 +93,12 @@ class MouseButtonPressedEvent : MouseButtonEvent
 class MouseButtonReleasedEvent : MouseButtonEvent
 {
 	/// ctor
-	pure @safe @nogc this(int btn) nothrow
+	this(int btn) nothrow pure @nogc @safe
 	{
 		super(btn);
 	}
 
-	@safe override string toString() const 
+	override string toString() const @safe
 	{
 		return "MouseButtonReleasedEvent: " ~ button_.to!string;
 	}

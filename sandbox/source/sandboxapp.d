@@ -77,5 +77,8 @@ deprecated class TestLayer : Layer
 
 void main(string[] args)
 {
+	import misanthropyd.core.options : Options;
+
+	Options.initialize(args);
 	(new SandboxApp).run();
 }
