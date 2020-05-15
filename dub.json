@@ -19,6 +19,7 @@
 	"versions": [
 		"GL_46",
 		"SDL",
-		"OpenGL"
+		"OpenGL",
+		"profiling"
 	]
 }

@@ -21,6 +21,7 @@ struct InstrumentationSession
 	string name;
 }
 
+/// drop the file in chrome://tracing/
 class Instrumentor
 {
 	private
@@ -31,56 +32,67 @@ class Instrumentor
 
 	void beginSession(const string name, const string filepath = "results.json")
 	{
-		synchronized
+		version(profiling)
 		{
-			if(currentSession_ != null)
+			synchronized
 			{
-				Logger.logf(Logger.Severity.ERROR, "Begin %s when session %s already open.", name, currentSession_.name);
-			}
-			outputFile_.open(filepath, "w");
-			if(outputFile_.isOpen)
-			{
-				currentSession_ = new InstrumentationSession(name);
-				writeHeader();
-			}
-			else
-			{
-				Logger.logf(Logger.Severity.ERROR, "Instrumentor could not open file %s", filepath);
+				if(currentSession_ != null)
+				{
+					Logger.logf(Logger.Severity.ERROR, "Begin %s when session %s already open.", 
+								name, currentSession_.name);
+				}
+				outputFile_.open(filepath, "w");
+				if(outputFile_.isOpen)
+				{
+					currentSession_ = new InstrumentationSession(name);
+					writeHeader();
+				}
+				else
+				{
+					Logger.logf(Logger.Severity.ERROR, "Instrumentor could not open file %s", filepath);
+				}
 			}
 		}
 	}
 
 	void endSession()
 	{
-		synchronized
+		version(profiling)
 		{
-			internalEndSession();
+			synchronized
+			{
+				internalEndSession();
+			}
 		}
 	}
 
 	void writeProfile(const ProfileResult result)
 	{
-		import std.conv: to;
-		string json;
-		string name = result.name.replace('"', '\'');
-		json ~= ",{";
-		json ~= "\"cat\":\"function\",";
-		json ~= "\"dur\":" ~ result.elapsedTime.total!"usecs".to!string ~ ",";
-		json ~= "\"name\":\"" ~ name ~ "\",";
-		json ~= "\"ph\":\"X\",";
-		json ~= "\"pid\":0,";
-		json ~= "\"tid\":" ~ result.threadID.to!string ~ ",";
-		// immutable TPS = result.start.ticksPerSecond;
-		// Logger.logf(Logger.Severity.WARNING, "TicksPerSecond: %s", TPS);
-		json ~= "\"ts\":" ~ (result.start.ticks / 10).to!string;
-		json ~= "}";
-
-		synchronized
+		version(profiling)
 		{
-			if(currentSession_ != null)
+			import std.conv: to;
+			string json;
+			string name = result.name.replace('"', '\'');
+			json ~= ",{";
+			json ~= "\"cat\":\"function\",";
+			json ~= "\"dur\":" ~ result.elapsedTime.total!"usecs".to!string ~ ",";
+			json ~= "\"name\":\"" ~ name ~ "\",";
+			json ~= "\"ph\":\"X\",";
+			json ~= "\"pid\":0,";
+			json ~= "\"tid\":" ~ result.threadID.to!string ~ ",";
+			// immutable TPS = result.start.ticksPerSecond;
+			// Logger.logf(Logger.Severity.WARNING, "TicksPerSecond: %s", TPS);
+			// TODO: We need to calculate the '1000' here due to platform variance
+			json ~= "\"ts\":" ~ (result.start.ticks / 1000).to!string;
+			json ~= "}";
+
+			synchronized
 			{
-				outputFile_.write(json);
-				outputFile_.flush();
+				if(currentSession_ != null)
+				{
+					outputFile_.write(json);
+					outputFile_.flush();
+				}
 			}
 		}
 	}
@@ -88,36 +100,45 @@ class Instrumentor
 	static Instrumentor get()
 	{
 		if(instance_ is null)
-			instance_ = new Instrumentor();
-		return instance_;
+			instance_ = new shared(Instrumentor)();
+		return cast(Instrumentor)instance_;
 	}
 
 	private
 	{
 		void writeHeader()
 		{
-			outputFile_.write("{\"otherData\": {},\"traceEvents\":[{}");
-			outputFile_.flush();
+			version(profiling)
+			{
+				outputFile_.write("{\"otherData\": {},\"traceEvents\":[{}");
+				outputFile_.flush();
+			}
 		}
 
 		void writeFooter()
 		{
-			outputFile_.write("]}");
-			outputFile_.flush();
+			version(profiling)
+			{
+				outputFile_.write("]}");
+				outputFile_.flush();
+			}
 		}
 
 		void internalEndSession()
 		{
-			if(currentSession_ != null)
+			version(profiling)
 			{
-				writeFooter();
-				outputFile_.close();
-				destroy(currentSession_);
-				currentSession_ = null;
+				if(currentSession_ != null)
+				{
+					writeFooter();
+					outputFile_.close();
+					destroy(currentSession_);
+					currentSession_ = null;
+				}
 			}
 		}
 
-		static Instrumentor instance_;
+		static shared Instrumentor instance_;
 	}
 }
 
@@ -153,3 +174,19 @@ struct InstrumentationTimer
 	}
 }
 
+version(profiling)
+{
+	template MdProfileScope(const string name, int line=__LINE__)
+	{
+		import std.conv: to;
+		const char[] MdProfileScope = "auto timer" ~ line.to!string ~ " = InstrumentationTimer(\"" ~ name ~ "\");"; // @suppress(dscanner.style.phobos_naming_convention)
+	}
+}
+else 
+{
+	template MdProfileScope(const string name, int line=__LINE__)
+	{
+		import std.conv: to;
+		const char[] mdProfileScope = "";
+	}
+}

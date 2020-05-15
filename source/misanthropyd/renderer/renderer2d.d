@@ -9,6 +9,7 @@ import misanthropyd.renderer.rendercommand;
 import misanthropyd.renderer.shaders;
 import misanthropyd.renderer.textures;
 import misanthropyd.renderer.vertexarray;
+import misanthropyd.debugging.instrumentor;
 
 private struct QuadVertex
 {
@@ -56,6 +57,7 @@ class Renderer2D
 	/// initialization
 	static void initialize()
 	{
+		mixin(MdProfileScope!(__PRETTY_FUNCTION__));
 		render2Ddata.quadVertexArray = VertexArray.create();
 		render2Ddata.quadVertexBuffer = VertexBuffer.create(render2Ddata.MAX_VERTICES * QuadVertex.sizeof);
 		render2Ddata.quadVertexBuffer
@@ -115,6 +117,8 @@ class Renderer2D
 	/// begins a scene
 	static void beginScene(const OrthographicCamera camera)
 	{
+		mixin(MdProfileScope!(__PRETTY_FUNCTION__));
+
 		render2Ddata.textureProgram.use();
 		render2Ddata.textureProgram.setMat4("u_viewProjection", camera.viewProjectionCache);
 
@@ -127,6 +131,8 @@ class Renderer2D
 	/// ends a scene
 	static void endScene()
 	{
+		mixin(MdProfileScope!(__FUNCTION__));
+
 		ubyte[] data = cast(ubyte[])(render2Ddata.quadVertexBufferBase[0 .. render2Ddata.quadVertexBufferPtr]);
 		render2Ddata.quadVertexBuffer.setData(data);
 		flush();
@@ -135,6 +141,8 @@ class Renderer2D
 	/// flush the draw buffer
 	static void flush()
 	{
+		mixin(MdProfileScope!(__PRETTY_FUNCTION__));
+
 		for(uint i=0; i < render2Ddata.textureSlotIndex; ++i)
 		{
 			render2Ddata.textureSlots[i].bind(i);
@@ -151,6 +159,8 @@ class Renderer2D
 	/// draws a colored quad with z index
 	static void drawQuad(const vec3f position, const vec2f size, const vec4f color)
 	{
+		mixin(MdProfileScope!(__PRETTY_FUNCTION__));
+
 		immutable size_t QUAD_VERTEX_COUNT = 4;
 		immutable int TEXTURE_INDEX = 0; // white texture
 		immutable vec2f[] TEXTURE_COORDS = [ 
@@ -188,6 +198,8 @@ class Renderer2D
 	static void drawQuad(const vec3f position, const vec2f size, Texture2D texture, float tilingFactor = 1.0f,
 						 const vec4f tintColor = vec4f(1.0f, 1.0f, 1.0f, 1.0f))
 	{
+		mixin(MdProfileScope!(__PRETTY_FUNCTION__));
+
 		immutable size_t QUAD_VERTEX_COUNT = 4;
 		immutable vec4f COLOR = vec4f(1.0f, 1.0f, 1.0f, 1.0f);
 		immutable vec2f[] TEXTURE_COORDS = [ 
@@ -246,6 +258,8 @@ class Renderer2D
 	/// draw rotated quad with color at z index
 	static void drawRotatedQuad(const vec3f position, const vec2f size, const float rotation, const vec4f color)
 	{
+		mixin(MdProfileScope!(__PRETTY_FUNCTION__));
+
 		immutable size_t QUAD_VERTEX_COUNT = 4;
 		immutable int TEXTURE_INDEX = 0; // white texture
 		immutable vec2f[] TEXTURE_COORDS = [ 
@@ -289,6 +303,8 @@ class Renderer2D
 	static void drawRotatedQuad(const vec3f position, const vec2f size, const float rotation, Texture2D texture, 
 								float tilingFactor = 1.0f, const vec4f tintColor = vec4f( 1.0f, 1.0f, 1.0f, 1.0f))
 	{
+		mixin(MdProfileScope!(__PRETTY_FUNCTION__));
+
 		immutable size_t QUAD_VERTEX_COUNT = 4;
 		immutable vec4f COLOR = vec4f(1.0f, 1.0f, 1.0f, 1.0f);
 		immutable vec2f[] TEXTURE_COORDS = [ 
@@ -341,6 +357,8 @@ class Renderer2D
 
 	private static void flushAndReset()
 	{
+		mixin(MdProfileScope!(__PRETTY_FUNCTION__));
+
 		endScene();
 		render2Ddata.quadIndexCount = 0;
 		render2Ddata.quadVertexBufferPtr = 0;

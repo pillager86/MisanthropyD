@@ -19,24 +19,29 @@ class Sandbox2D : Layer
 	{
 		super("Sandbox2D");
 		cameraController_ = new OrthographicCameraController(1280.0f / 720.0f);
+		Instrumentor.get.beginSession("session");
+	}
+
+	~this()
+	{
+		Instrumentor.get.endSession();
 	}
 
 	override void onAttach()
 	{
 		checkerboardTexture_ = Texture2D.create("sandbox/res/textures/checkerboard.png");
 		marioTexture_ = Texture2D.create("sandbox/res/textures/mario.png");
-		Instrumentor.get.beginSession("session");
 	}
 
 	override void onDetach()
 	{
 		checkerboardTexture_ = null;
-		Instrumentor.get.endSession();
 	}
 
 	override void onUpdate(const Timestep ts)
 	{
 		// InstrumentationTimer timer1 = InstrumentationTimer(__FUNCTION__);
+		mixin(MdProfileScope!(__FUNCTION__));
 		cameraController_.onUpdate(ts);
 		static float rotation = 0.0f;
 		rotation += ts.getSeconds * 50.0f;
