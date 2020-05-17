@@ -8,7 +8,7 @@ import core.time;
 
 import misanthropyd.core.logger;
 
-struct ProfileResult
+private struct ProfileResult
 {
 	string name;
 	MonoTime start;
@@ -16,12 +16,12 @@ struct ProfileResult
 	ThreadID threadID;
 }
 
-struct InstrumentationSession
+private struct InstrumentationSession
 {
 	string name;
 }
 
-/// drop the file in chrome://tracing/
+/// drop the resulting json file into chrome://tracing/
 class Instrumentor
 {
 	private
@@ -30,6 +30,12 @@ class Instrumentor
 		File outputFile_;
 	}
 
+	/**
+	 * This should be called before declaring any InstrumentationTimer variables.
+	 * Params:
+	 *	name = the name of the section of the program being profiled.
+	 *  filepath = where the results of this profile section should be stored
+	 */
 	void beginSession(const string name, const string filepath = "results.json")
 	{
 		version(profiling)
@@ -41,7 +47,7 @@ class Instrumentor
 					Logger.logf(Logger.Severity.ERROR, "Begin %s when session %s already open.", 
 								name, currentSession_.name);
 				}
-				outputFile_.open(filepath, "w");
+				outputFile_.open(filepath, "w"); // this is supposed to delete the old file each time?
 				if(outputFile_.isOpen)
 				{
 					currentSession_ = new InstrumentationSession(name);
@@ -55,6 +61,10 @@ class Instrumentor
 		}
 	}
 
+	/**
+	 * This should be called to close any session started by beginSession. beginSession...endSession calls
+	 * cannot be nested.
+	 */
 	void endSession()
 	{
 		version(profiling)
@@ -66,7 +76,7 @@ class Instrumentor
 		}
 	}
 
-	void writeProfile(const ProfileResult result)
+	package void writeProfile(const ProfileResult result)
 	{
 		version(profiling)
 		{
@@ -97,11 +107,15 @@ class Instrumentor
 		}
 	}
 
+	/// Returns the singleton instance of the class.
 	static Instrumentor get()
 	{
-		if(instance_ is null)
-			instance_ = new shared(Instrumentor)();
-		return cast(Instrumentor)instance_;
+		synchronized
+		{
+			if(instance_ is null)
+				instance_ = new shared(Instrumentor)();
+			return cast(Instrumentor)instance_;
+		}
 	}
 
 	private
@@ -138,10 +152,17 @@ class Instrumentor
 			}
 		}
 
+		// this is a singleton
+		shared this() {}
+		this() {}
+
 		static shared Instrumentor instance_;
 	}
 }
 
+/** Scope lifetime variable to be declared at top of function to profile. There is no need to use this
+ *  directly. See the template MdProfileScope below.
+ */
 struct InstrumentationTimer
 {
 	this(const string name)
@@ -160,8 +181,8 @@ struct InstrumentationTimer
 	{
 		import std.process: thisThreadID;
 		immutable endTimepoint = MonoTime.currTime();
-		Duration elapsedTime = endTimepoint - startTimepoint_;
-		ProfileResult result = ProfileResult(name_, startTimepoint_, elapsedTime, thisThreadID);
+		auto elapsedTime = endTimepoint - startTimepoint_;
+		auto result = ProfileResult(name_, startTimepoint_, elapsedTime, thisThreadID);
 		Instrumentor.get.writeProfile(result);
 		stopped_ = true;
 	}
@@ -176,6 +197,9 @@ struct InstrumentationTimer
 
 version(profiling)
 {
+	/** use mixin(MdProfileScope!(\_\_PRETTY_FUNCTION\_\_)); at the top of functions to profile. This can only
+	 * be done between Instrumentor.get.beginSession and Instrumentor.get.endSession calls.
+	 */
 	template MdProfileScope(const string name, int line=__LINE__)
 	{
 		import std.conv: to;
@@ -184,9 +208,9 @@ version(profiling)
 }
 else 
 {
+	// this has no effect if profiling is not enabled
 	template MdProfileScope(const string name, int line=__LINE__)
 	{
-		import std.conv: to;
-		const char[] mdProfileScope = "";
+		const char[] MdProfileScope = ""; // @suppress(dscanner.style.phobos_naming_convention)
 	}
 }

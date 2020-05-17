@@ -9,6 +9,7 @@ import misanthropyd.events;
 import misanthropyd.orthographiccameracontroller;
 import misanthropyd.renderer.rendercommand;
 import misanthropyd.renderer.renderer2d;
+import misanthropyd.renderer.textrenderer;
 import misanthropyd.renderer.textures;
 
 /// class for testing
@@ -17,8 +18,12 @@ class Sandbox2D : Layer
 	/// ctor
 	this()
 	{
+		import misanthropyd.core.logger : Logger;
 		super("Sandbox2D");
 		cameraController_ = new OrthographicCameraController(1280.0f / 720.0f);
+		Logger.logf(Logger.Severity.INFO, "Loading font");
+		TextRenderer.loadFont("font16", "res/fonts/test.ttf", 16);
+		Logger.logf(Logger.Severity.INFO, "Loaded font");
 		Instrumentor.get.beginSession("session");
 	}
 
@@ -31,11 +36,14 @@ class Sandbox2D : Layer
 	{
 		checkerboardTexture_ = Texture2D.create("sandbox/res/textures/checkerboard.png");
 		marioTexture_ = Texture2D.create("sandbox/res/textures/mario.png");
+		messageTexture_ = TextRenderer.renderText("font16", "Hello world"w, 0xff, 0, 0xff);
 	}
 
 	override void onDetach()
 	{
 		checkerboardTexture_ = null;
+		marioTexture_ = null;
+		messageTexture_ = null;
 	}
 
 	override void onUpdate(const Timestep ts)
@@ -66,6 +74,9 @@ class Sandbox2D : Layer
 				Renderer2D.drawQuad(vec2f(x, y), vec2f(0.45f, 0.45f), color);
 			}
 		}
+		Renderer2D.drawQuad(vec3f(0.0f, 0.0f, 0.1f),
+			vec2f(cast(float)messageTexture_.width / 16.0f, cast(float)messageTexture_.height / 16.0f), 
+			messageTexture_);
 		Renderer2D.endScene();
 	}
 
@@ -77,7 +88,7 @@ class Sandbox2D : Layer
 	private
 	{
 		OrthographicCameraController cameraController_;
-		Texture2D checkerboardTexture_, marioTexture_;
+		Texture2D checkerboardTexture_, marioTexture_, messageTexture_;
 	}
 
 }

@@ -7,5 +7,5 @@ This software has only been tested on Ubuntu Linux 64-bit so far but it should w
 
 ## TODO
 - Implement game using engine
-- Implement profiling and OpenGL debugging
+- Implement OpenGL debugging
 - Implement GLFW (currently uses SDL only) to use the D port of imgui (dimgui).

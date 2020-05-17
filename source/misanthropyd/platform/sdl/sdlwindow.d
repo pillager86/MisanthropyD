@@ -177,7 +177,7 @@ class SdlWindow : Window
 
 		SDL_Window* window_;
 		GraphicsContext context_;
-		bool vsync_;
+		bool vsync_ = true;
 		EventCallbackFn eventCallback_;
 
 		static shared bool isSDLLoaded = false;

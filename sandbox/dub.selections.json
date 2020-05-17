@@ -1,6 +1,7 @@
 {
 	"fileVersion": 1,
 	"versions": {
+		"bindbc-freetype": "0.8.0",
 		"bindbc-glfw": "0.9.0",
 		"bindbc-loader": "0.2.1",
 		"bindbc-opengl": "0.12.0",

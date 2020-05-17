@@ -15,6 +15,7 @@ import misanthropyd.renderer.rendercommand;
 import misanthropyd.renderer.renderer;
 import misanthropyd.renderer.renderer2d;
 import misanthropyd.renderer.shaders;
+import misanthropyd.renderer.textrenderer;
 import misanthropyd.renderer.textures;
 import misanthropyd.renderer.vertexarray;
 
@@ -27,12 +28,14 @@ class SandboxApp : Application
 	this()
 	{
 		window.vsync = true;
-		layerStack.pushLayer(new Sandbox2D);
 		Renderer.initialize();
+		TextRenderer.initialize();
+		layerStack.pushLayer(new Sandbox2D);
 	}
 
 	~this()
 	{
+		TextRenderer.shutdown();
 		Renderer.shutdown();
 	}
 }
