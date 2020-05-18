@@ -22,7 +22,7 @@ class Sandbox2D : Layer
 		super("Sandbox2D");
 		cameraController_ = new OrthographicCameraController(1280.0f / 720.0f);
 		Logger.logf(Logger.Severity.INFO, "Loading font");
-		TextRenderer.loadFont("font16", "res/fonts/test.ttf", 16);
+		TextRenderer.loadFont("font24", "res/fonts/test.ttf", 24);
 		Logger.logf(Logger.Severity.INFO, "Loaded font");
 		Instrumentor.get.beginSession("session");
 	}
@@ -34,13 +34,15 @@ class Sandbox2D : Layer
 
 	override void onAttach()
 	{
+		mixin(MdProfileScope!(__PRETTY_FUNCTION__));
 		checkerboardTexture_ = Texture2D.create("sandbox/res/textures/checkerboard.png");
 		marioTexture_ = Texture2D.create("sandbox/res/textures/mario.png");
-		messageTexture_ = TextRenderer.renderText("font16", "Hello world"w, 0xff, 0, 0xff);
+		messageTexture_ = TextRenderer.renderText("font24", "Hello ńȳģworld"w, 0xff, 0, 0xff);
 	}
 
 	override void onDetach()
 	{
+		mixin(MdProfileScope!(__PRETTY_FUNCTION__));
 		checkerboardTexture_ = null;
 		marioTexture_ = null;
 		messageTexture_ = null;
@@ -75,7 +77,10 @@ class Sandbox2D : Layer
 			}
 		}
 		Renderer2D.drawQuad(vec3f(0.0f, 0.0f, 0.1f),
-			vec2f(cast(float)messageTexture_.width / 16.0f, cast(float)messageTexture_.height / 16.0f), 
+			vec2f(cast(float)messageTexture_.width / 32.0f, cast(float)messageTexture_.height / 32.0f),
+			vec4f(0.5f, 1.0f, 0.0f, 1.0f));
+		Renderer2D.drawQuad(vec3f(0.0f, 0.0f, 0.2f),
+			vec2f(cast(float)messageTexture_.width / 32.0f, cast(float)messageTexture_.height / 32.0f), 
 			messageTexture_);
 		Renderer2D.endScene();
 	}

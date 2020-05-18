@@ -29,6 +29,9 @@ abstract class Application
 	/// run the application.
 	void run()
 	{
+		// send initial window size
+		onEvent(new WindowResizeEvent(window_.width, window_.height));
+		// run loop
 		while(running_)
 		{
 			immutable newTime = Clock.currTime;
